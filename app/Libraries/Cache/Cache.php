@@ -5,30 +5,30 @@ use Sc3n3\FatSlim\Cache\CacheInterface;
 class Cache {
 
     private static $prefix = '';
-	private static $instance = null;
+    private static $instance = null;
 
-	public static function get($key) {
+    public static function get($key) {
 
         return self::unserialize(self::$instance->get(self::getKey($key)));
-	}
+    }
 
-	public static function set($key, $val, $expire = 0) {
+    public static function set($key, $val, $expire = 0) {
 
-		return self::$instance->set(self::getKey($key), self::serialize(self::call($val)), $expire);
-	}
+    	return self::$instance->set(self::getKey($key), self::serialize(self::call($val)), $expire);
+    }
 
-	public static function has($key) {
+    public static function has($key) {
 
-		return self::$instance->has(self::getKey($key));
-	}
+    	return self::$instance->has(self::getKey($key));
+    }
 
-	public static function del($key) {
+    public static function del($key) {
 
-		return self::$instance->del(self::getKey($key));
-	}
+    	return self::$instance->del(self::getKey($key));
+    }
 
-	public static function remember($key, $val, $expire = 0) {
-		
+    public static function remember($key, $val, $expire = 0) {
+    	
         $key = self::getKey($key);
 
         if ( $value = self::get($key) ) {
@@ -37,12 +37,12 @@ class Cache {
 
         return self::set($key, $val, $expire);
         
-	}
+    }
 
-	public static function setInstance(CacheInterface $instance) {
-		
-		return self::$instance = $instance;
-	}
+    public static function setInstance(CacheInterface $instance) {
+    	
+    	return self::$instance = $instance;
+    }
 
     private static function getKey($key) {
 
