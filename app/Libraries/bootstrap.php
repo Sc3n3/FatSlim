@@ -2,7 +2,7 @@
 
 use Cache;
 use Illuminate\Database\Capsule\Manager;
-use Illuminate\Cache\CacheManager;
+use Sc3n3\FatSlim\Connectors\RedisConnector;
 
 class Bootstrap {
 
@@ -45,7 +45,7 @@ class Bootstrap {
 	private function setConfig() {
 
 		$this->app->config( require( $this->path .'/../config.php') );
-		$this->app->config('templates.path', $this->path .'/Views');
+		$this->app->config('templates.path', $this->path .'/../Views');
 		$this->app->config('cache_dir', realpath($this->path .'/../../cache'));
 
 		$this->app->config('view', new \Slim\Views\Twig());
@@ -86,14 +86,31 @@ class Bootstrap {
 		$active = $this->app->config('cache')['active'];
 		$drivers = $this->app->config('cache')['drivers'];
 
-		switch ($active) {
-			case 'file':
-				Cache::setInstance(new \Sc3n3\FatSlim\Cache\FileCache($drivers[$active]));
-				break;
-			
-			default:
-				Cache::setInstance(new \Sc3n3\FatSlim\Cache\FileCache(array('path' => $this->app->config('cache_dir'))));
-				break;
+		try {
+
+			switch ($active) {
+				case 'file':
+					Cache::setInstance(new \Sc3n3\FatSlim\Cache\FileCache($drivers['file']));
+					break;
+
+				case 'redis':
+					$redis = new RedisConnector($drivers['redis']);
+
+					if ( !$client = $redis->connect() ) {
+						throw new \Exception('Default Cache');
+					}
+
+					Cache::setInstance(new \Sc3n3\FatSlim\Cache\RedisCache($client));
+					break;
+
+				default:
+					throw new \Exception('Default Cache');
+					break;
+			}
+
+		} catch(\Exception $e) {
+
+			Cache::setInstance(new \Sc3n3\FatSlim\Cache\ArrayCache);
 		}
 	}
 

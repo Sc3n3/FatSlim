@@ -15,3 +15,4 @@ class IndexController {
 		dd( UserModel::all()->toArray() );
 	}
 }
+

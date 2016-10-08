@@ -9,29 +9,30 @@ class Cache {
 
     public static function get($key) {
 
-        return self::unserialize(self::$instance->get(self::getKey($key)));
+        return self::unserialize(self::$instance->get(self::key($key)));
     }
 
     public static function set($key, $val, $expire = 0) {
 
-    	return self::$instance->set(self::getKey($key), self::serialize(self::call($val)), $expire);
+        $val = self::call($val);
+        $action = self::$instance->set(self::key($key), self::serialize($val), $expire);
+
+        return $action ? $val : false;
     }
 
     public static function has($key) {
 
-    	return self::$instance->has(self::getKey($key));
+    	return self::$instance->has(self::key($key));
     }
 
     public static function del($key) {
 
-    	return self::$instance->del(self::getKey($key));
+    	return self::$instance->del(self::key($key));
     }
 
     public static function remember($key, $val, $expire = 0) {
     	
-        $key = self::getKey($key);
-
-        if ( $value = self::get($key) ) {
+        if ( $value = self::get(self::key($key)) ) {
             return $value;
         }
 
@@ -43,7 +44,7 @@ class Cache {
     	return self::$instance = $instance;
     }
 
-    private static function getKey($key) {
+    private static function key($key) {
 
         return !empty(self::$prefix) ? self::$prefix .':'. $key : $key;
     }

@@ -39,16 +39,31 @@ return array(
 				'name' => 'session'
 			),
 
-			'redis' => array() // For future
+			'redis' => array(
+				'scheme' => 'tcp',
+				'host' => '127.0.0.1',
+				'port' => '6379',
+				'password' => null,
+				'database' => 0
+			)
 		)
 	),
 
 	'cache' => array(
-		'active' => 'file',
+		'active' => 'redis',
 		'drivers' => array(
+
 			'file' => array(
 				'driver' => 'file',
 				'path' => path('cache')
+			),
+
+			'redis' => array(
+				'scheme' => 'tcp',
+				'host' => '127.0.0.1',
+				'port' => '6379',
+				'password' => null,
+				'database' => 1
 			)
 		)
 	)
