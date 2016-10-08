@@ -5,7 +5,7 @@ use Illuminate\Database\Capsule\Manager;
 class Bootstrap {
 
 	public $app = null;
-	public $path = __DIR__;
+	protected $path = __DIR__;
 
 	public function __construct() {
 		
@@ -84,7 +84,5 @@ class Bootstrap {
 				session_start();
 				break;
 		}
-
-		return;		
 	}
 }
