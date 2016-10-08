@@ -13,4 +13,6 @@ Will have a Cache System (Now only File Cache)
 
 Validation Class
 
+Modular System
+
 etc. etc.
