@@ -24,12 +24,12 @@ class RedisConnector {
 
 		try {
 
-            $client = new Client($this->config);
-            return $client->connect();
+			$client = new Client($this->config);
+			return $client->connect();
 
-        } catch (ConnectionException $e) {
+		} catch (ConnectionException $e) {
 
-           return false;
-        }
+			return false;
+		}
 	}
 }
