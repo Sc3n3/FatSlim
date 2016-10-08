@@ -9,5 +9,8 @@ Slim Framework 2.6 with Twig Template Engine &amp; Eloquent ORM
 [Eloquent ORM](https://laravel.com/docs/5.3/eloquent)
 
 #TODO
-Will have a Cache System
+Will have a Cache System (Now only File Cache)
+
+Validation Class
+
 etc. etc.
