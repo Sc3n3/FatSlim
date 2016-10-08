@@ -7,7 +7,7 @@ function getApp() {
 
 function path($path) {
 	
-	return realpath(\Sc3n3\FatSlim\Bootstrap::getPath() .'/../../'. $path);
+	return realpath(\Sc3n3\FatSlim\Bootstrap::getPath() .'/'. $path);
 }
 
 function request() {

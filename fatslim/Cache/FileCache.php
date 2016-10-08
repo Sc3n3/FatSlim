@@ -7,10 +7,10 @@ class FileCache implements CacheInterface {
 	public function __construct($config = array()) {
 
 		$defaults = array(
-			'path' => 'cache'
+			'path' => '../cache'
 		);
 
-		$this->config = array_merge($config, $defaults);
+		$this->config = array_merge($defaults, $config);
 	}
 
 	public function get($key) {
@@ -61,12 +61,13 @@ class FileCache implements CacheInterface {
 
 		$key = md5($key);
 		$dir = $this->getDir($key, $create);
-		
+
 		return $dir ? $dir .'/'. $key : false;
 	}
 
 	private function removeFile($key) {
-		return is_file($this->getFile($key)) && unlink($this->getFile($key));
+
+		return $this->getFile($key) && is_file($this->getFile($key)) && unlink($this->getFile($key));
 	}
 
 	private function getDir($key, $create) {

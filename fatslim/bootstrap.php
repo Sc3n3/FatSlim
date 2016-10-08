@@ -7,11 +7,12 @@ use Sc3n3\FatSlim\Connectors\RedisConnector;
 class Bootstrap {
 
 	public $app = null;
-	protected $path = __DIR__;
+	protected $path = null;
 
 	public function __construct() {
 		
 		$this->app = new \Slim\Slim();
+		$this->path = self::getPath();
 	}
 
 	public static function getApp() {
@@ -21,7 +22,7 @@ class Bootstrap {
 
 	public static function getPath() {
 
-		return __DIR__;
+		return realpath(__DIR__ .'/../');
 	}
 
 	public function addMiddleware($object) {
@@ -44,9 +45,9 @@ class Bootstrap {
 
 	private function setConfig() {
 
-		$this->app->config( require( $this->path .'/../app/config.php') );
-		$this->app->config('templates.path', $this->path .'/../app/Views');
-		$this->app->config('cache_dir', realpath($this->path .'/../cache'));
+		$this->app->config( require( $this->path .'/app/config.php') );
+		$this->app->config('templates.path', $this->path .'/app/Views');
+		$this->app->config('cache_dir', realpath($this->path .'/cache'));
 
 		$this->app->config('view', new \Slim\Views\Twig());
 		$this->app->view->parserOptions = array(
@@ -57,12 +58,12 @@ class Bootstrap {
 
 	private function setRoutes() {
 
-		require $this->path .'/../app/routes.php';
+		require $this->path .'/app/routes.php';
 	}
 
 	private function setHelpers() {
 
-		require $this->path .'/helpers.php';
+		require $this->path .'/fatslim/helpers.php';
 	}
 
 	private function setDatabase() {

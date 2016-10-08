@@ -50,7 +50,7 @@ return array(
 	),
 
 	'cache' => array(
-		'active' => null,
+		'active' => false,
 		'drivers' => array(
 
 			'file' => array(
