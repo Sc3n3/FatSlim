@@ -44,9 +44,9 @@ class Bootstrap {
 
 	private function setConfig() {
 
-		$this->app->config( require( $this->path .'/../config.php') );
-		$this->app->config('templates.path', $this->path .'/../Views');
-		$this->app->config('cache_dir', realpath($this->path .'/../../cache'));
+		$this->app->config( require( $this->path .'/../app/config.php') );
+		$this->app->config('templates.path', $this->path .'/../app/Views');
+		$this->app->config('cache_dir', realpath($this->path .'/../cache'));
 
 		$this->app->config('view', new \Slim\Views\Twig());
 		$this->app->view->parserOptions = array(
@@ -57,7 +57,7 @@ class Bootstrap {
 
 	private function setRoutes() {
 
-		require $this->path .'/../routes.php';
+		require $this->path .'/../app/routes.php';
 	}
 
 	private function setHelpers() {

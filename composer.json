@@ -12,11 +12,11 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Sc3n3\\FatSlim\\": "app/Libraries"
+            "Sc3n3\\FatSlim\\": "fatslim/"
         },
         "files": [
-            "app/Libraries/bootstrap.php",
-            "app/Libraries/Cache/Cache.php"
+            "fatslim/bootstrap.php",
+            "fatslim/Cache/Cache.php"
         ]
     }
 }
