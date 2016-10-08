@@ -7,7 +7,7 @@ class FileCache implements CacheInterface {
 	public function __construct($config = array()) {
 
 		$defaults = array(
-			'path' => getApp()->config('cache_dir')
+			'path' => 'cache'
 		);
 
 		$this->config = array_merge($config, $defaults);
