@@ -19,7 +19,7 @@ return array(
 				'charset'   => 'utf8',
 				'collation' => 'utf8_unicode_ci',
 				'prefix'    => '',
-			)
+			),
 		)
 	),
 	
@@ -40,6 +40,16 @@ return array(
 			),
 
 			'redis' => array() // For future
+		)
+	),
+
+	'cache' => array(
+		'active' => 'file',
+		'drivers' => array(
+			'file' => array(
+				'driver' => 'file',
+				'path' => path('cache')
+			)
 		)
 	)
 );

@@ -1,6 +1,8 @@
 <?php namespace Sc3n3\FatSlim;
 
+use Cache;
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Cache\CacheManager;
 
 class Bootstrap {
 
@@ -17,6 +19,11 @@ class Bootstrap {
 		return \Slim\Slim::getInstance();
 	}
 
+	public static function getPath() {
+
+		return __DIR__;
+	}
+
 	public function addMiddleware($object) {
 
 		return $this->app->add($object);
@@ -24,9 +31,10 @@ class Bootstrap {
 
 	public function run() {
 
-		$this->setConfig();
-		$this->setConnections();
 		$this->setHelpers();
+		$this->setConfig();
+		$this->setDatabase();
+		$this->setCache();
 		$this->setRoutes();
 
 		$this->sessionStart();
@@ -36,20 +44,20 @@ class Bootstrap {
 
 	private function setConfig() {
 
-		$this->app->config( require( $this->path .'/config.php') );
+		$this->app->config( require( $this->path .'/../config.php') );
 		$this->app->config('templates.path', $this->path .'/Views');
-		$this->app->config('cache', realpath($this->path .'/../cache'));
+		$this->app->config('cache_dir', realpath($this->path .'/../../cache'));
 
 		$this->app->config('view', new \Slim\Views\Twig());
 		$this->app->view->parserOptions = array(
 			'debug' => $this->app->config('debug'),
-			'cache' => $this->app->config('cache')
+			'cache' => $this->app->config('cache_dir')
 		);
 	}
 
 	private function setRoutes() {
 
-		require $this->path .'/routes.php';
+		require $this->path .'/../routes.php';
 	}
 
 	private function setHelpers() {
@@ -57,16 +65,36 @@ class Bootstrap {
 		require $this->path .'/helpers.php';
 	}
 
-	private function setConnections() {
+	private function setDatabase() {
 
 		$active = $this->app->config('database')['active'];
 		$drivers = $this->app->config('database')['drivers'];
+
+		if ( !$active ) {
+			return;
+		}
 
 		$manager = new Manager;
 		$manager->addConnection($drivers[$active]);
 
 		$manager->setAsGlobal();
 		$manager->bootEloquent();
+	}
+
+	private function setCache() {
+
+		$active = $this->app->config('cache')['active'];
+		$drivers = $this->app->config('cache')['drivers'];
+
+		switch ($active) {
+			case 'file':
+				Cache::setInstance(new \Sc3n3\FatSlim\Cache\FileCache($drivers[$active]));
+				break;
+			
+			default:
+				Cache::setInstance(new \Sc3n3\FatSlim\Cache\FileCache(array('path' => $this->app->config('cache_dir'))));
+				break;
+		}
 	}
 
 	private function sessionStart() {
