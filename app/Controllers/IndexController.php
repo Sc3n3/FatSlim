@@ -6,7 +6,7 @@ class IndexController {
 	
 	public static function getIndex() {
 
-		return render('index.html', array('name' => 'World'));
+		return render('index.twig', array('name' => 'World'));
 	}
 
 	public static function getTest() {
