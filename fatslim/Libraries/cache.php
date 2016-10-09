@@ -12,7 +12,7 @@ class Cache {
         return self::unserialize(self::$instance->get(self::key($key)));
     }
 
-    public static function set($key, $val, $expire = 0) {
+    public static function set($key, $val, $expire = 60) {
 
         $val = self::call($val);
         $action = self::$instance->set(self::key($key), self::serialize($val), $expire);
@@ -30,7 +30,7 @@ class Cache {
     	return self::$instance->del(self::key($key));
     }
 
-    public static function remember($key, $val, $expire = 0) {
+    public static function remember($key, $val, $expire = 60) {
     	
         if ( $value = self::get(self::key($key)) ) {
             return $value;

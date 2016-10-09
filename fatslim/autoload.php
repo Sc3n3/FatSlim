@@ -1,6 +1,10 @@
 <?php
 
-foreach(glob(__DIR__ ."/Libraries/*.[pP][hH][pP]") as $file) {
+
+
+$files = glob(__DIR__ ."/Libraries/*.[pP][hH][pP]");
+
+foreach($files ? $files : array() as $file) {
 
 	require $file;
 
