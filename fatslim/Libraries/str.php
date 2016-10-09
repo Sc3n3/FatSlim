@@ -1,5 +1,5 @@
 <?php 
 
-Class Str1 extends Illuminate\Support\Str {
+Class Str extends Illuminate\Support\Str {
 
 }
