@@ -8,6 +8,7 @@ Route::set(function($app) {
 
 		$app->get('/cache', 'App\Controllers\IndexController:getCacheTest')->name('test::cache');
 		$app->get('/model', 'App\Controllers\IndexController:getModelTest')->name('test::model');
+		$app->get('/validator', 'App\Controllers\IndexController:getValidatorTest')->name('test::validator');
 
 	});
 

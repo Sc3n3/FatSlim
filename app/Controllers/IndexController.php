@@ -22,5 +22,33 @@ class IndexController extends BaseController {
 		dd( Cache::get('test') );
 		
 	}
+
+	public function getValidatorTest() {
+
+		$values = array();
+		$errors = array('No Error');
+    
+	    $rules = array(
+	        'username' => ['required', 'min:3', 'max:20'],
+	        'password' => ['required', 'min:5', 'max:60']
+	    );
+
+	    $messages = array(
+	        'username.required' => 'Username is required.',
+	        'username.min' => 'Username must be at least :min characters.',
+	        'username.max' => 'Username must be no more than :max characters.',
+	        'password.required' => 'Password is required.',
+	        'password.min' => 'Password must be at least :min characters.',
+	        'password.max' => 'Password must be no more than :max characters.',
+	    );
+
+	    $validator = \Validator::make($values, $rules, $messages);
+
+	    if ($validator->fails()) {
+	        $errors = $validator->messages();
+	    }
+
+	    dd( $errors );
+	}
 }
 
