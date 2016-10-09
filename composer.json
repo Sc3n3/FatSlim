@@ -13,11 +13,11 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Sc3n3\\FatSlim\\": "fatslim/"
+            "Sc3n3\\FatSlim\\": "FatSlim/"
         },
         "files": [
-            "fatslim/bootstrap.php",
-            "fatslim/autoload.php"
+            "FatSlim/bootstrap.php",
+            "FatSlim/autoload.php"
         ]
     }
 }
