@@ -17,8 +17,7 @@
         },
         "files": [
             "fatslim/bootstrap.php",
-            "fatslim/Libraries/autoload.php",
-            "fatslim/Cache/Cache.php"
+            "fatslim/autoload.php"
         ]
     }
 }
