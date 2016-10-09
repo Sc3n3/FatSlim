@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 
 use Cache;
+use Validator;
 use App\Models\UserModel;
 
 class IndexController extends BaseController {
@@ -42,7 +43,7 @@ class IndexController extends BaseController {
 	        'password.max' => 'Password must be no more than :max characters.',
 	    );
 
-	    $validator = \Validator::make($values, $rules, $messages);
+	    $validator = Validator::make($values, $rules, $messages);
 
 	    if ($validator->fails()) {
 	        $errors = $validator->messages();
