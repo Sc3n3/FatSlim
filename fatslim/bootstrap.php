@@ -1,17 +1,13 @@
 <?php namespace Sc3n3\FatSlim;
 
-use Cache;
-use Illuminate\Database\Capsule\Manager;
-use Sc3n3\FatSlim\Connectors\RedisConnector;
-
 class Bootstrap {
 
-	public $app = null;
+	public $slim = null;
 	protected $path = null;
 
 	public function __construct() {
 		
-		$this->app = new \Slim\Slim();
+		$this->slim = new \Slim\Slim();
 		$this->path = self::getPath();
 	}
 
@@ -27,12 +23,11 @@ class Bootstrap {
 
 	public function addMiddleware($object) {
 
-		return $this->app->add($object);
+		return $this->slim->add($object);
 	}
 
 	public function run() {
 
-		$this->setHelpers();
 		$this->setConfig();
 		$this->setDatabase();
 		$this->setCache();
@@ -40,19 +35,19 @@ class Bootstrap {
 
 		$this->sessionStart();
 
-		return $this->app->run();
+		return $this->slim->run();
 	}
 
 	private function setConfig() {
 
-		$this->app->config( require( $this->path .'/app/config.php') );
-		$this->app->config('templates.path', $this->path .'/app/Views');
-		$this->app->config('cache_dir', realpath($this->path .'/cache'));
+		$this->slim->config( require( $this->path .'/app/config.php') );
+		$this->slim->config('templates.path', $this->path .'/app/Views');
+		$this->slim->config('cache_dir', realpath($this->path .'/cache'));
 
-		$this->app->config('view', new \Slim\Views\Twig());
-		$this->app->view->parserOptions = array(
-			'debug' => $this->app->config('debug'),
-			'cache' => $this->app->config('cache_dir')
+		$this->slim->config('view', new \Slim\Views\Twig());
+		$this->slim->view->parserOptions = array(
+			'debug' => $this->slim->config('debug'),
+			'cache' => $this->slim->config('cache_dir')
 		);
 	}
 
@@ -61,21 +56,16 @@ class Bootstrap {
 		require $this->path .'/app/routes.php';
 	}
 
-	private function setHelpers() {
-
-		require $this->path .'/fatslim/helpers.php';
-	}
-
 	private function setDatabase() {
 
-		$active = $this->app->config('database')['active'];
-		$drivers = $this->app->config('database')['drivers'];
+		$active = $this->slim->config('database')['active'];
+		$drivers = $this->slim->config('database')['drivers'];
 
 		if ( !$active ) {
 			return;
 		}
 
-		$manager = new Manager;
+		$manager = new \Illuminate\Database\Capsule\Manager;
 		$manager->addConnection($drivers[$active]);
 
 		$manager->setAsGlobal();
@@ -84,24 +74,24 @@ class Bootstrap {
 
 	private function setCache() {
 
-		$active = $this->app->config('cache')['active'];
-		$drivers = $this->app->config('cache')['drivers'];
+		$active = $this->slim->config('cache')['active'];
+		$drivers = $this->slim->config('cache')['drivers'];
 
 		try {
 
 			switch ($active) {
 				case 'file':
-					Cache::setInstance(new \Sc3n3\FatSlim\Cache\FileCache($drivers['file']));
+					\Cache::setInstance(new \Sc3n3\FatSlim\Cache\FileCache($drivers['file']));
 					break;
 
 				case 'redis':
-					$redis = new RedisConnector($drivers['redis']);
+					$redis = new \Sc3n3\FatSlim\Connectors\RedisConnector($drivers['redis']);
 
 					if ( !$client = $redis->connect() ) {
 						throw new \Exception('Default Cache');
 					}
 
-					Cache::setInstance(new \Sc3n3\FatSlim\Cache\RedisCache($client));
+					\Cache::setInstance(new \Sc3n3\FatSlim\Cache\RedisCache($client));
 					break;
 
 				default:
@@ -111,18 +101,19 @@ class Bootstrap {
 
 		} catch(\Exception $e) {
 
-			Cache::setInstance(new \Sc3n3\FatSlim\Cache\ArrayCache);
+			\Cache::setInstance(new \Sc3n3\FatSlim\Cache\ArrayCache);
+
 		}
 	}
 
 	private function sessionStart() {
 
-		$active = $this->app->config('session')['active'];
-		$drivers = $this->app->config('session')['drivers'];
+		$active = $this->slim->config('session')['active'];
+		$drivers = $this->slim->config('session')['drivers'];
 
 		switch ($active) {
 			case 'cookie':
-				$this->app->add(new \Slim\Middleware\SessionCookie($drivers['cookie']));
+				$this->slim->add(new \Slim\Middleware\SessionCookie($drivers['cookie']));
 				break;
 			
 			default:

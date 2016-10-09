@@ -16,6 +16,9 @@
         },
         "files": [
             "fatslim/bootstrap.php",
+            "fatslim/Libraries/helpers.php",
+            "fatslim/Libraries/base.php",
+            "fatslim/Libraries/route.php",
             "fatslim/Cache/Cache.php"
         ]
     }

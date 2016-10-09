@@ -3,21 +3,20 @@
 use Cache;
 use App\Models\UserModel;
 
-class IndexController {
+class IndexController extends BaseController {
 	
-	public static function getIndex() {
+	public function getIndex() {
 
 		return render('index.twig', array('name' => 'World'));
-
 	}
 
-	public static function getModelTest() {
+	public function getModelTest() {
 		
 		dd( UserModel::all()->toArray() );
 
 	}
 
-	public static function getCacheTest() {
+	public function getCacheTest() {
 
 		Cache::set('test', 'Yupp Cached', 60);
 		dd( Cache::get('test') );
