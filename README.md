@@ -8,7 +8,7 @@ First, you should clone the repository.
 git clone https://github.com/Sc3n3/FatSlim.git
 ```
 
-And then, run composer
+And than, run composer
 
 ```
 composer update
