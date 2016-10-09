@@ -24,8 +24,7 @@ class RedisConnector {
 
 		try {
 
-			$client = new Client($this->config);
-			return $client->connect();
+			return $client = new Client($this->config);
 
 		} catch (ConnectionException $e) {
 

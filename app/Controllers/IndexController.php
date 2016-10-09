@@ -17,7 +17,7 @@ class IndexController extends BaseController {
 	}
 
 	public function getCacheTest() {
-
+		
 		Cache::set('test', 'Yupp Cached', 60);
 		dd( Cache::get('test') );
 		

@@ -111,15 +111,47 @@ class Bootstrap {
 		$active = $this->slim->config('session')['active'];
 		$drivers = $this->slim->config('session')['drivers'];
 
-		switch ($active) {
-			case 'cookie':
-				$this->slim->add(new \Slim\Middleware\SessionCookie($drivers['cookie']));
-				break;
-			
-			default:
-				session_cache_limiter(false);
-				session_start();
-				break;
+		try {
+
+			switch ($active) {
+				case 'cookie':
+					$this->slim->add(new \Slim\Middleware\SessionCookie($drivers['cookie']));
+					break;
+				
+				case 'redis':
+					$redis = new \Sc3n3\FatSlim\Connectors\RedisConnector($drivers['redis']);
+
+					if ( !$client = $redis->connect() ) {
+						throw new \Exception('Default Cache');
+					}
+					
+					$config = array('time' => $drivers['redis']['maxlifetime'], 'prefix' => $drivers['redis']['prefix']);
+
+					$handlers = array();
+					$handlers['open'] = function($savePath, $sessionName) { };
+					$handlers['close'] = function() use($client) { $client = null; unset($client); };
+					$handlers['read'] = function($id) use($client, $config) { $data = $client->get($config['prefix'].$id); $client->expire($config['prefix'].$id, $config['time']); return $data; };
+					$handlers['write'] = function($id, $data) use($client, $config) { $client->set($config['prefix'].$id, $data); $client->expire($config['prefix'].$id, $config['time']); };
+					$handlers['destroy'] = function($id) use($client, $config) { $client->del($config['prefix'].$id); };
+					$handlers['gc'] = function($maxLifetime) { };
+
+					session_set_save_handler($handlers['open'], $handlers['close'], $handlers['read'], $handlers['write'], $handlers['destroy'], $handlers['gc']);
+					
+					session_cache_limiter(false);
+					session_start();
+					break;
+
+				default:
+					throw new \Exception('Default Session');
+					break;
+			}
+
+		} catch(\Exception $e) {
+
+			ini_set('session.gc_maxlifetime', $drivers['native']['maxlifetime']);
+			session_cache_limiter(false);
+			session_start();
+
 		}
 	}
 }

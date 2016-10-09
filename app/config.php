@@ -28,7 +28,9 @@ return array(
 		'active' => 'native',
 		'drivers' => array(
 
-			'native' => array(), // Adviced
+			'native' => array( // Adviced
+				'maxlifetime' => 3600
+			),
 
 			'cookie' => array(
 				'expires' => '60 minutes',
@@ -40,6 +42,8 @@ return array(
 			),
 
 			'redis' => array(
+				'maxlifetime' => 3600,
+				'prefix' => 'PHPSESSID:',
 				'scheme' => 'tcp',
 				'host' => '127.0.0.1',
 				'port' => '6379',
@@ -50,8 +54,10 @@ return array(
 	),
 
 	'cache' => array(
-		'active' => false,
+		'active' => 'array',
 		'drivers' => array(
+
+			'array' => array(),
 
 			'file' => array(
 				'driver' => 'file',
