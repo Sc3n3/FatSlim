@@ -1,4 +1,4 @@
-<?php namespace App\Controllers;
+<?php namespace Sc3n3\FatSlim;
 
 class BaseController {
 

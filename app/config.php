@@ -74,5 +74,9 @@ return array(
 				'database' => 1
 			)
 		)
+	),
+
+	'modules' => array(
+		\Sc3n3\FatSlim\Modules\Admin\AdminProvider::class
 	)
 );

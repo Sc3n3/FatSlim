@@ -38,7 +38,8 @@ class Bootstrap {
 		$this->setCache();
 
 		$this->sessionStart();
-
+		
+		Module\ModuleService::setModules();
 		\Route::apply();
 
 		return $this->slim->run();
@@ -50,11 +51,15 @@ class Bootstrap {
 		$this->slim->config('templates.path', $this->path .'/app/Views');
 		$this->slim->config('cache_dir', realpath($this->path .'/cache'));
 
-		$this->slim->config('view', new \Slim\Views\Twig());
+		$twig = new \Slim\Views\Twig;
+		
+		$this->slim->config('view', $twig);
 		$this->slim->view->parserOptions = array(
 			'debug' => $this->slim->config('debug'),
 			'cache' => $this->slim->config('cache_dir') .'/view'
 		);
+
+		Module\ModuleProvider::setTemplateInstance($twig->getInstance());
 	}
 
 	private function setDatabase() {
@@ -88,17 +93,17 @@ class Bootstrap {
 
 			switch ($active) {
 				case 'file':
-					\Cache::setInstance(new \Sc3n3\FatSlim\Cache\FileCache($drivers['file']));
+					\Cache::setInstance(new Cache\FileCache($drivers['file']));
 					break;
 
 				case 'redis':
-					$redis = new \Sc3n3\FatSlim\Connectors\RedisConnector($drivers['redis']);
+					$redis = new Connectors\RedisConnector($drivers['redis']);
 
 					if ( !$client = $redis->connect() ) {
 						throw new \Exception('Default Cache');
 					}
 
-					\Cache::setInstance(new \Sc3n3\FatSlim\Cache\RedisCache($client));
+					\Cache::setInstance(new Cache\RedisCache($client));
 					break;
 
 				default:
@@ -108,7 +113,7 @@ class Bootstrap {
 
 		} catch(\Exception $e) {
 
-			\Cache::setInstance(new \Sc3n3\FatSlim\Cache\ArrayCache);
+			\Cache::setInstance(new Cache\ArrayCache);
 
 		}
 	}
@@ -126,7 +131,7 @@ class Bootstrap {
 					break;
 				
 				case 'redis':
-					$redis = new \Sc3n3\FatSlim\Connectors\RedisConnector($drivers['redis']);
+					$redis = new Connectors\RedisConnector($drivers['redis']);
 
 					if ( !$client = $redis->connect() ) {
 						throw new \Exception('Default Cache');

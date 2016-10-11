@@ -3,6 +3,7 @@
 use Cache;
 use Validator;
 use App\Models\UserModel;
+use Sc3n3\FatSlim\BaseController;
 
 class IndexController extends BaseController {
 	

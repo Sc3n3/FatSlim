@@ -28,6 +28,4 @@ Thats all!
 [Laravel Helpers](https://laravel.com/docs/5.3/helpers)
 
 #TODO
-Modular System
-
-etc. etc.
+I have no idea.
