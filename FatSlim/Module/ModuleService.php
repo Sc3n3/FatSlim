@@ -10,13 +10,15 @@ class ModuleService {
 		foreach( $modules ? $modules : array() as $module ) {
 
 			$details = new \ReflectionClass($module);
-			if( $details->implementsInterface('\Sc3n3\FatSlim\Module\ModuleProviderInterface') ) {
-
-				$class = new $details->name;
-				$class->setDir($class);
-				$class->register();
-				$class->boot();
+			
+			if( !$details->implementsInterface('\Sc3n3\FatSlim\Module\ModuleProviderInterface') ) {
+				continue;
 			}
+
+			$class = new $details->name;
+			$class->setDir($class);
+			$class->register();
+			$class->boot();
 		}
 
 	}
