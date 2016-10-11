@@ -7,10 +7,10 @@ class FileCache implements CacheInterface {
 	public function __construct($config = array()) {
 
 		$defaults = array(
-			'path' => '../cache'
+			'path' => '../cache/storage'
 		);
 
-		$this->config = array_merge($defaults, $config);
+		$this->config = array_merge($defaults, array_filter($config));
 	}
 
 	public function get($key) {
@@ -32,6 +32,18 @@ class FileCache implements CacheInterface {
 	public function del($key) {
 
 		return $this->removeFile($key);
+	}
+
+	public function flush($dir = null) {
+
+		$files = ( $dir == null ? glob($this->config['path'] .'/*') : glob($dir .'/*') );
+
+		foreach( $files ? $files : array() as $file ) {
+
+			is_dir($file) ? ( $this->flush($file) && rmdir($file) ) : unlink($file);
+		}
+
+		return true;
 	}
 
 	private function isExpire($key) {

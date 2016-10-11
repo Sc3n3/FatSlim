@@ -1,4 +1,5 @@
-cache/*
+cache/view/*
+cache/storage/*
 vendor/*
 composer.lock
-!*/.gitkeep
+!*.gitkeep

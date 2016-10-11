@@ -26,6 +26,12 @@ class ArrayCache implements CacheInterface {
 		return true;
 	}
 
+	public function flush() {
+
+		$this->container = array();
+		return true;
+	}
+
 	private function isExpire($key) {
 
 		$val = $this->container[$key];

@@ -7,7 +7,7 @@ function app($appName = 'default') {
 
 function path($path) {
 	
-	return realpath(\Sc3n3\FatSlim\Bootstrap::getPath() .'/'. $path);
+	return realpath(\Sc3n3\FatSlim\Bootstrap::getPath() .'/./'. $path);
 }
 
 function request() {
@@ -130,7 +130,7 @@ function predump($var) {
 }
 
 function predd($var) {
-	
+
 	echo "<pre>";
 	print_r($var);
 	exit('</pre>');

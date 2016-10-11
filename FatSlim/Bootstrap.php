@@ -53,7 +53,7 @@ class Bootstrap {
 		$this->slim->config('view', new \Slim\Views\Twig());
 		$this->slim->view->parserOptions = array(
 			'debug' => $this->slim->config('debug'),
-			'cache' => $this->slim->config('cache_dir')
+			'cache' => $this->slim->config('cache_dir') .'/view'
 		);
 	}
 

@@ -4,6 +4,7 @@ return array(
 
 	'debug' => true,
 	'mode' => 'development',
+	'cookies.encrypt' => true,
 
 	'database' => array(
 
@@ -62,7 +63,7 @@ return array(
 
 			'file' => array(
 				'driver' => 'file',
-				'path' => path('cache')
+				'path' => path('cache/storage')
 			),
 
 			'redis' => array(

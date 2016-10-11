@@ -28,4 +28,9 @@ class RedisCache implements CacheInterface {
 
 		return $this->connection->del($key);
 	}
+
+	public function flush() {
+
+		return $this->connection->flush();;
+	}
 }

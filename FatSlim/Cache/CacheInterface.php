@@ -10,4 +10,6 @@ interface CacheInterface {
 	
 	public function del($key);
 
+	public function flush();
+
 }
