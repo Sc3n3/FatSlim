@@ -5,15 +5,25 @@ class Bootstrap {
 	public $slim = null;
 	protected $path = null;
 
-	public function __construct() {
+	public function __construct($config = array()) {
 		
-		$this->slim = new \Slim\Slim();
+		$this->slim = new \Slim\Slim($config);
 		$this->path = self::getPath();
 	}
 
 	public function __destruct() {
 
 		$this->slim->config('debug') ? predump( \DB::getQueryLog() ) : null;
+	}
+
+	public function __call($name, $arguments) {
+
+		return call_user_func_array(array($this->slim, $name), $arguments);
+	}
+
+	public function __get($name) {
+
+		return $this->slim->$name;
 	}
 
 	public static function getApp($appName = 'default') {

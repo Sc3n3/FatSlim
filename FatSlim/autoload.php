@@ -1,6 +1,6 @@
 <?php
 
-$files = glob(__DIR__ ."/Libraries/*.[pP][hH][pP]");
+$files = glob(__DIR__ ."/Libraries/*.php");
 
 foreach($files ? $files : array() as $file) {
 
@@ -8,4 +8,4 @@ foreach($files ? $files : array() as $file) {
 
 }
 
-require path('app') .'/routes.php';
+is_file(path('app') .'/routes.php') ? require path('app') .'/routes.php' : '';
