@@ -20,4 +20,6 @@ class Validator {
 
 	}
 
+	protected function __clone() {}
+
 }

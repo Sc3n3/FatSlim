@@ -72,7 +72,7 @@ class Bootstrap {
 		$manager->setAsGlobal();
 		$manager->bootEloquent();
 
-		\DB::setInstance($manager->getConnection());
+		\DB::setInstance($manager);
 
 		$this->slim->config('debug') ? $manager->getConnection()->enableQueryLog() : null;
 	}
