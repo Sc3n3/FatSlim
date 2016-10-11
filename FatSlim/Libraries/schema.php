@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Builder;
-
 class Schema {
 
 	public static function __callStatic($name, $arguments) {
