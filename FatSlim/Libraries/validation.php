@@ -12,7 +12,7 @@ class Validator {
 
 		if ( !self::$instance ) {
 
-    		self::$instance = new ValidatorFactory(new Translator('en_US', new MessageSelector()));
+			self::$instance = new ValidatorFactory(new Translator('en_US', new MessageSelector()));
 
 		}
 
