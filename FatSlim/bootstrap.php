@@ -31,9 +31,10 @@ class Bootstrap {
 		$this->setConfig();
 		$this->setDatabase();
 		$this->setCache();
-		$this->setRoutes();
 
 		$this->sessionStart();
+
+		\Route::apply();
 
 		return $this->slim->run();
 	}
@@ -49,11 +50,6 @@ class Bootstrap {
 			'debug' => $this->slim->config('debug'),
 			'cache' => $this->slim->config('cache_dir')
 		);
-	}
-
-	private function setRoutes() {
-
-		require $this->path .'/app/routes.php';
 	}
 
 	private function setDatabase() {

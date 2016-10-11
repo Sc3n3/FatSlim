@@ -10,3 +10,4 @@ foreach($files ? $files : array() as $file) {
 
 }
 
+require path('app') .'/routes.php';
