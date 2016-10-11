@@ -26,6 +26,11 @@ class ModuleService {
 		return self::$templateInstance = $instance;
 	}
 
+	public static function getTemplateInstance() {
+
+		return self::$templateInstance;
+	}
+
 	public static function getTemplateLoader() {
 
 		return self::$templateInstance->getLoader();
