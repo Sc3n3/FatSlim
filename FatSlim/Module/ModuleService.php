@@ -2,6 +2,8 @@
 
 class ModuleService {
 
+	private static $templateInstance = null;
+
 	public static function setModules() {
 
 		$modules = app()->config('modules');
@@ -17,6 +19,16 @@ class ModuleService {
 			}
 		}
 
+	}
+
+	public static function setTemplateInstance(\Twig_Environment $instance) {
+
+		return self::$templateInstance = $instance;
+	}
+
+	public static function getTemplateLoader() {
+
+		return self::$templateInstance->getLoader();
 	}
 
 }

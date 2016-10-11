@@ -5,7 +5,6 @@ class ModuleProvider {
 	protected $dir = null;
 	protected $app = null;
 	protected $prefix = null;
-	private static $templateInstance = null;
 
 	public function __construct() {
 
@@ -27,15 +26,10 @@ class ModuleProvider {
 
 	public function boot() {
 
-		self::$templateInstance->getLoader()->addPath($this->dir .'/Views', $this->prefix);
+		ModuleService::getTemplateLoader()->addPath($this->dir .'/Views', $this->prefix);
 
 		require $this->dir .'/routes.php';
 
-	}
-
-	public static function setTemplateInstance(\Twig_Environment $instance) {
-
-		return self::$templateInstance = $instance;
 	}
 
 }

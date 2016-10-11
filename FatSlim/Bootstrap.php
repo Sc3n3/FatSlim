@@ -59,7 +59,7 @@ class Bootstrap {
 			'cache' => $this->slim->config('cache_dir') .'/view'
 		);
 
-		Module\ModuleProvider::setTemplateInstance($twig->getInstance());
+		Module\ModuleService::setTemplateInstance($twig->getInstance());
 	}
 
 	private function setDatabase() {
