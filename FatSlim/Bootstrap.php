@@ -16,9 +16,9 @@ class Bootstrap {
 		$this->slim->config('debug') ? predump( \DB::getQueryLog() ) : null;
 	}
 
-	public static function getApp() {
+	public static function getApp($appName = 'default') {
 
-		return \Slim\Slim::getInstance();
+		return \Slim\Slim::getInstance($appName);
 	}
 
 	public static function getPath() {

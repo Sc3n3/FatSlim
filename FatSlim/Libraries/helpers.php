@@ -1,8 +1,8 @@
 <?php
 
-function app() {
+function app($appName = 'default') {
 
-	return \Sc3n3\FatSlim\Bootstrap::getApp();
+	return \Sc3n3\FatSlim\Bootstrap::getApp($appName);
 }
 
 function path($path) {
@@ -30,14 +30,46 @@ function url($url) {
 	return $url;
 }
 
-function asset($url) {
-
-	return '/assets/'. $url;
-}
-
 function route($route, $params = array()) {
 
 	return app()->urlFor($route, $params);
+}
+
+function site($url, $withUri = true, $appName = 'default') {
+
+    return base($withUri, $appName) . '/' . ltrim($url, '/');
+
+}
+
+function base($withUri = true, $appName = 'default') {
+
+    $uri = request()->getUrl();
+
+    if ($withUri) {
+        $uri .= request()->getRootUri();
+    }
+
+    return $uri;
+}
+
+function currentUrl($withQueryString = true, $appName = 'default') {
+
+    $uri = request()->getUrl() . request()->getPath();
+
+    if ($withQueryString) {
+        $env = app()->environment();
+
+        if ($env['QUERY_STRING']) {
+            $uri .= '?' . $env['QUERY_STRING'];
+        }
+    }
+
+    return $uri;
+}
+
+function asset($url) {
+
+	return base() . '/assets/'. $url;
 }
 
 function redirect($url, $code = '301') {
