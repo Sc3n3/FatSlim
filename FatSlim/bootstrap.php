@@ -73,6 +73,8 @@ class Bootstrap {
 		$active = $this->slim->config('cache')['active'];
 		$drivers = $this->slim->config('cache')['drivers'];
 
+		\Cache::setPrefix($this->slim->config('cache')['prefix']);
+
 		try {
 
 			switch ($active) {

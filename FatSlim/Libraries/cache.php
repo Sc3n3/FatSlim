@@ -44,6 +44,11 @@ class Cache {
     	return self::$instance = $instance;
     }
 
+    public static function setPrefix($prefix) {
+
+        return self::$prefix = $prefix;
+    }
+
     private static function key($key) {
 
         return !empty(self::$prefix) ? self::$prefix .':'. $key : $key;

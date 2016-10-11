@@ -55,6 +55,7 @@ return array(
 
 	'cache' => array(
 		'active' => 'array',
+		'prefix' => null,
 		'drivers' => array(
 
 			'array' => array(),
