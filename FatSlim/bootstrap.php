@@ -11,6 +11,11 @@ class Bootstrap {
 		$this->path = self::getPath();
 	}
 
+	public function __destruct() {
+
+		$this->slim->config('debug') ? predump( \DB::getQueryLog() ) : null;
+	}
+
 	public static function getApp() {
 
 		return \Slim\Slim::getInstance();
@@ -66,6 +71,10 @@ class Bootstrap {
 
 		$manager->setAsGlobal();
 		$manager->bootEloquent();
+
+		\DB::setInstance($manager->getConnection());
+
+		$this->slim->config('debug') ? $manager->getConnection()->enableQueryLog() : null;
 	}
 
 	private function setCache() {
@@ -152,4 +161,5 @@ class Bootstrap {
 
 		}
 	}
+
 }

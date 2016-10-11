@@ -13,8 +13,9 @@ class IndexController extends BaseController {
 	}
 
 	public function getModelTest() {
-		
-		dd( UserModel::all()->toArray() );
+
+		predump( \DB::table('users')->where('id', '1')->get()->toArray() );
+		predd( UserModel::all()->toArray() );
 
 	}
 
@@ -29,28 +30,28 @@ class IndexController extends BaseController {
 
 		$values = array();
 		$errors = array('No Error');
-    
-	    $rules = array(
-	        'username' => ['required', 'min:3', 'max:20'],
-	        'password' => ['required', 'min:5', 'max:60']
-	    );
 
-	    $messages = array(
-	        'username.required' => 'Username is required.',
-	        'username.min' => 'Username must be at least :min characters.',
-	        'username.max' => 'Username must be no more than :max characters.',
-	        'password.required' => 'Password is required.',
-	        'password.min' => 'Password must be at least :min characters.',
-	        'password.max' => 'Password must be no more than :max characters.',
-	    );
+		$rules = array(
+		    'username' => ['required', 'min:3', 'max:20'],
+		    'password' => ['required', 'min:5', 'max:60']
+		);
 
-	    $validator = Validator::make($values, $rules, $messages);
+		$messages = array(
+		    'username.required' => 'Username is required.',
+		    'username.min' => 'Username must be at least :min characters.',
+		    'username.max' => 'Username must be no more than :max characters.',
+		    'password.required' => 'Password is required.',
+		    'password.min' => 'Password must be at least :min characters.',
+		    'password.max' => 'Password must be no more than :max characters.',
+		);
 
-	    if ($validator->fails()) {
-	        $errors = $validator->messages();
-	    }
+		$validator = Validator::make($values, $rules, $messages);
 
-	    dd( $errors );
+		if ($validator->fails()) {
+		    $errors = $validator->messages();
+		}
+
+		dd( $errors );
 	}
 }
 

@@ -84,3 +84,19 @@ function fetchHalt($view, $data = array(), $code = '403') {
 
 	return fetch($view, $data, $code);
 }
+
+function dump($var) {
+	var_dump($var);
+}
+
+function predump($var) {
+	echo "<pre>";
+	print_r($var);
+	echo '</pre>';
+}
+
+function predd($var) {
+	echo "<pre>";
+	print_r($var);
+	exit('</pre>');
+}
