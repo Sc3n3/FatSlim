@@ -17,7 +17,7 @@ class ArrayCache implements CacheInterface {
 
 	public function has($key) {
 
-		return isset($this->container[$key]);
+		return ( isset($this->container[$key]) && !$this->isExpire($key) );
 	}
 
 	public function del($key) {
