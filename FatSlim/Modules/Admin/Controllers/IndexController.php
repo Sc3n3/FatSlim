@@ -7,7 +7,7 @@ class IndexController extends BaseController {
 	
 	public function getIndex() {
 
-		return render('@admin/index.twig', array('text' => 'Admin Page'));
+		return render('@admin/index', array('text' => 'Admin Page'));
 		
 	}
 }

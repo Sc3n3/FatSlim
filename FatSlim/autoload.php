@@ -1,6 +1,6 @@
 <?php
 
-$files = glob(__DIR__ ."/Libraries/*.php");
+$files = glob(__DIR__ ."/Core/Libraries/*.php");
 
 foreach($files ? $files : array() as $file) {
 

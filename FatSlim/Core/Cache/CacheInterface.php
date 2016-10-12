@@ -1,4 +1,4 @@
-<?php namespace Sc3n3\FatSlim\Cache;
+<?php namespace Sc3n3\FatSlim\Core\Cache;
 
 interface CacheInterface {
 

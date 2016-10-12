@@ -46,13 +46,19 @@ class Bootstrap {
 		$this->setConfig();
 		$this->setDatabase();
 		$this->setCache();
+		$this->setModules();
 
 		$this->sessionStart();
 		
-		Module\ModuleService::setModules();
-		\Route::apply();
-
 		return $this->slim->run();
+	}
+
+	private function setModules() {
+
+		Core\Module\ModuleService::setModuleList($this->slim->config('modules'));
+		Core\Module\ModuleService::runModules();
+
+		\Route::apply();
 	}
 
 	private function setConfig() {
@@ -61,15 +67,11 @@ class Bootstrap {
 		$this->slim->config('templates.path', $this->path .'/app/Views');
 		$this->slim->config('cache_dir', realpath($this->path .'/cache'));
 
-		$twig = new \Slim\Views\Twig;
-		
-		$this->slim->config('view', $twig);
+		$this->slim->config('view', Core\Views\ViewService::getEngine());
 		$this->slim->view->parserOptions = array(
 			'debug' => $this->slim->config('debug'),
 			'cache' => $this->slim->config('cache_dir') .'/view'
 		);
-
-		Module\ModuleService::setTemplateInstance($twig->getInstance());
 	}
 
 	private function setDatabase() {
@@ -103,17 +105,17 @@ class Bootstrap {
 
 			switch ($active) {
 				case 'file':
-					\Cache::setInstance(new Cache\FileCache($drivers['file']));
+					\Cache::setInstance(new Core\Cache\FileCache($drivers['file']));
 					break;
 
 				case 'redis':
-					$redis = new Connectors\RedisConnector($drivers['redis']);
+					$redis = new Core\Connectors\RedisConnector($drivers['redis']);
 
 					if ( !$client = $redis->connect() ) {
 						throw new \Exception('Default Cache');
 					}
 
-					\Cache::setInstance(new Cache\RedisCache($client));
+					\Cache::setInstance(new Core\Cache\RedisCache($client));
 					break;
 
 				default:
@@ -123,7 +125,7 @@ class Bootstrap {
 
 		} catch(\Exception $e) {
 
-			\Cache::setInstance(new Cache\ArrayCache);
+			\Cache::setInstance(new Core\Cache\ArrayCache);
 
 		}
 	}

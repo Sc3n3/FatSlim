@@ -89,7 +89,7 @@ function fetch($view, $data = array(), $code = '200') {
 
 function render($view, $data = array(), $code = '200') {
 
-	return app()->render($view, $data, $code);
+	echo app()->view->render($view, $data, $code);
 }
 
 function stop() {

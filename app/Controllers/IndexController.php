@@ -9,7 +9,7 @@ class IndexController extends BaseController {
 	
 	public function getIndex() {
 
-		return render('index.twig', array('name' => 'World'));
+		return render('index', array('name' => 'World'));
 		
 	}
 

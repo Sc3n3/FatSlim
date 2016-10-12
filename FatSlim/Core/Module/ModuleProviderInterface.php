@@ -1,4 +1,4 @@
-<?php namespace Sc3n3\FatSlim\Module;
+<?php namespace Sc3n3\FatSlim\Core\Module;
 
 interface ModuleProviderInterface {
 
