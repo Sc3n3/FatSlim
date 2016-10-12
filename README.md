@@ -1,5 +1,5 @@
 # FatSlim
-Slim Framework 2.6 with Twig Template Engine &amp; Eloquent ORM
+Slim Framework 2.6 with Eloquent ORM &amp; Twig and Blade Template Engine
 
 # Install
 First, you should clone the repository.
@@ -14,12 +14,15 @@ And than, run composer
 composer update
 ```
 
-Thats all!
+And set chmod for "cache" directory writeable. Thats all!
+
 
 # Documents
 [Slim Framework 2](http://docs.slimframework.com)
 
 [Twig Template Engine](http://twig.sensiolabs.org/documentation)
+
+[Blade Template Engine](https://laravel.com/docs/5.3/blade)
 
 [Eloquent ORM](https://laravel.com/docs/5.3/eloquent)
 
