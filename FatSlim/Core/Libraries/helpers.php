@@ -88,8 +88,8 @@ function fetch($view, $data = array(), $code = '200') {
 }
 
 function render($view, $data = array(), $code = '200') {
-
-	echo app()->view->render($view, $data, $code);
+	
+	return app()->render($view, $data, $code);
 }
 
 function stop() {
