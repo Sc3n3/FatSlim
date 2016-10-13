@@ -3,7 +3,7 @@
 use Sc3n3\FatSlim\Services\Module\ModuleProvider;
 use Sc3n3\FatSlim\Services\Module\ModuleProviderInterface;
 
-class AdminProvider extends ModuleProvider implements ModuleProviderInterface {
+class AdminProvider extends ModuleProvider {
 
 	public function register() {
 		

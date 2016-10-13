@@ -15,26 +15,25 @@ class ModuleService {
 
 	public function runModules() {
 
-		foreach( $this->moduleList as $module ) {
+		foreach( $this->moduleList as $moduleClass ) {
 
-			$details = new \ReflectionClass($module);
+			$moduleProvider = new $moduleClass;
 			
-			if( !$details->implementsInterface('\Sc3n3\FatSlim\Services\Module\ModuleProviderInterface') ) {
+			if( !$moduleProvider instanceof ModuleProvider ) {
 				continue;
 			}
 
+			$details = new \ReflectionClass($moduleProvider);
 			$moduleDir = $this->getClassDir($details);
 
-			$class = new $module;
+			$moduleProvider->setDir($moduleDir);
+			$moduleProvider->setViewPrefix($this->getDirName($moduleDir));
+			$moduleProvider->setViewPath($moduleDir .'/Views');
+			$moduleProvider->setRoutes($moduleDir .'/routes.php');
 
-			$class->setDir($moduleDir);
-			$class->setViewPrefix($this->getClassName($moduleDir));
-			$class->setViewPath($moduleDir .'/Views');
-			$class->setRoutes($moduleDir .'/routes.php');
+			$moduleProvider->register();
 
-			$class->register();
-
-			$this->boot($class);
+			$this->boot($moduleProvider);
 		}
 
 		return $this->applyRoutes();
@@ -45,7 +44,7 @@ class ModuleService {
 		return dirname($class->getFileName());
 	}
 
-	private function getClassName($dir) {
+	private function getDirName($dir) {
 
 		return mb_strtolower(basename($dir));
 	}
