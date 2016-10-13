@@ -6,7 +6,7 @@ class ModuleService {
 
 	private $moduleList = array();
 
-	public function setModuleList(array $list) {
+	public function setList(array $list) {
 
 		$this->moduleList = $list;
 
@@ -36,6 +36,8 @@ class ModuleService {
 
 			$this->boot($class);
 		}
+
+		return $this->applyRoutes();
 	}
 
 	private function getClassDir($class) {
@@ -52,6 +54,18 @@ class ModuleService {
 
 		ViewService::addNamespace($object->getViewPrefix(), $object->getViewPath());
 		require $object->getRoutes();
+
+		return $this;
 	}
 
+	private function applyRoutes() {
+
+		foreach(\Route::getRoutes() as $closure) {
+
+			call_user_func($closure, app());
+
+		}
+
+		return $this;
+	}
 }

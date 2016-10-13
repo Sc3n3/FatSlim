@@ -15,14 +15,9 @@ class Route {
 		return true;
 	}
 
-	public static function apply() {
+	public static function getRoutes() {
 
-		foreach(self::$routes as $closure) {
-
-			call_user_func($closure, app());
-
-		}
-
-		return true;
+		return self::$routes;
 	}
+
 }

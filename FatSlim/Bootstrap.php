@@ -18,7 +18,7 @@ class Bootstrap {
 		if( $this->slim->config('debug') ) {
 			
 			Services\View\ViewService::addNamespace('debug', __DIR__ .'/Views/Debug');
-			
+
 			$debug = array(
 				'exec_time' => number_format( (microtime(true) - $this->time), 3 ) .' sec',
 				'peak_memory' =>  round(memory_get_peak_usage() / 1024) .' KB',
@@ -76,10 +76,10 @@ class Bootstrap {
 
 	private function setModules() {
 
-		$moduleService = new Services\Module\ModuleService;
-		$moduleService->setModuleList($this->slim->config('modules'))->runModules();
-
-		\Route::apply();
+		$modules = $this->slim->config('modules');
+		(new Services\Module\ModuleService)
+			->setList($modules)
+			->runModules();
 	}
 
 	private function setConfig() {
