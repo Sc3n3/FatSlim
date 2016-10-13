@@ -167,7 +167,7 @@ class Bootstrap {
 					$redis = new Connectors\RedisConnector($drivers['redis']);
 
 					if ( !$client = $redis->connect() ) {
-						throw new \Exception('Default Cache');
+						throw new \Exception('Default Session');
 					}
 					
 					$config = array('time' => $drivers['redis']['maxlifetime'], 'prefix' => $drivers['redis']['prefix']);
