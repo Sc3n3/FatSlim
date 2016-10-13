@@ -55,7 +55,7 @@ return array(
 	),
 
 	'cache' => array(
-		'active' => 'redis',
+		'active' => 'array',
 		'prefix' => null,
 		'drivers' => array(
 
