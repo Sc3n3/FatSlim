@@ -1,12 +1,20 @@
-<?php namespace Sc3n3\FatSlim\Services\Cache\Driver;
+<?php namespace Sc3n3\FatSlim\Services\Cache\Drivers;
+
+use Sc3n3\FatSlim\Connectors\RedisConnector;
 
 class RedisDriver implements CacheDriverInterface {
 
 	private $connection = null;
 
-	public function __construct( $connection ) {
+	public function __construct( $config = array() ) {
 
-		$this->connection = $connection;
+		$redis = new RedisConnector($config);
+
+		if ( !$client = $redis->connect() ) {
+			throw new \Exception('Connection Problem!');
+		}
+
+		$this->connection = $client;
 	}
 
 	public function get($key) {
@@ -31,6 +39,6 @@ class RedisDriver implements CacheDriverInterface {
 
 	public function flush() {
 
-		return $this->connection->flush();;
+		return $this->connection->flushdb();;
 	}
 }

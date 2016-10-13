@@ -134,13 +134,7 @@ class Bootstrap {
 					break;
 
 				case 'redis':
-					$redis = new Connectors\RedisConnector($drivers['redis']);
-
-					if ( !$client = $redis->connect() ) {
-						throw new \Exception('Default Cache');
-					}
-
-					$cache->setDriver(new Services\Cache\Drivers\RedisDriver($client));
+					$cache->setDriver(new Services\Cache\Drivers\RedisDriver($drivers['redis']));
 					break;
 
 				default:
