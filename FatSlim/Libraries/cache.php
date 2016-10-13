@@ -1,6 +1,6 @@
 <?php 
 
-use Sc3n3\FatSlim\Core\Cache\CacheInterface;
+use Sc3n3\FatSlim\Services\Cache\CacheInterface;
 
 class Cache {
 

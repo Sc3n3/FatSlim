@@ -1,4 +1,4 @@
-<?php namespace Sc3n3\FatSlim\Core\Views;
+<?php namespace Sc3n3\FatSlim\Services\View;
 
 class ViewService {
 

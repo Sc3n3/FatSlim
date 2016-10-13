@@ -10,21 +10,18 @@ class IndexController extends BaseController {
 	public function getIndex() {
 
 		return render('index', array('name' => 'World'));
-		
 	}
 
 	public function getModelTest() {
 
 		predump( \DB::table('users')->where('id', '1')->get()->toArray() );
-		predd( UserModel::all()->toArray() );
-
+		predump( UserModel::all()->toArray() );
 	}
 
 	public function getCacheTest() {
 		
 		Cache::set('test', 'Yupp Cached', 60);
 		dd( Cache::get('test') );
-		
 	}
 
 	public function getValidatorTest() {

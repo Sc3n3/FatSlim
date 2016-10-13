@@ -3,17 +3,30 @@
 class Bootstrap {
 
 	public $slim = null;
+	private $time = null;
 	protected $path = null;
 
 	public function __construct($config = array()) {
 		
+		$this->time = microtime(true);
 		$this->slim = new \Slim\Slim($config);
 		$this->path = self::getPath();
 	}
 
 	public function __destruct() {
 
-		$this->slim->config('debug') ? predump( \DB::getQueryLog() ) : null;
+		if( $this->slim->config('debug') ) {
+			
+			Services\View\ViewService::addNamespace('debug', __DIR__ .'/Views/Debug');
+			
+			$debug = array(
+				'exec_time' => number_format( (microtime(true) - $this->time), 3 ) .' sec',
+				'peak_memory' =>  round(memory_get_peak_usage() / 1024) .' KB',
+				'query_log' => array_map(function($v){ $v['time'] = $v['time'] / 1000 .' ms'; return $v; }, \DB::getQueryLog())
+			);
+
+			$this->slim->render('@debug/debug', array('___debugProfile___' => $debug));
+		}
 	}
 
 	public function __call($name, $arguments) {
@@ -36,6 +49,14 @@ class Bootstrap {
 		return realpath(__DIR__ .'/../');
 	}
 
+	public static function getLoader() {
+
+		$files = glob(__DIR__ ."/Libraries/*.php");
+		foreach($files ? $files : array() as $file) {
+			require $file;
+		}
+	}
+
 	public function addMiddleware($object) {
 
 		return $this->slim->add($object);
@@ -55,8 +76,8 @@ class Bootstrap {
 
 	private function setModules() {
 
-		Core\Module\ModuleService::setModuleList($this->slim->config('modules'));
-		Core\Module\ModuleService::runModules();
+		$moduleService = new Services\Module\ModuleService;
+		$moduleService->setModuleList($this->slim->config('modules'))->runModules();
 
 		\Route::apply();
 	}
@@ -67,7 +88,7 @@ class Bootstrap {
 		$this->slim->config('templates.path', $this->path .'/app/Views');
 		$this->slim->config('cache_dir', realpath($this->path .'/cache'));
 
-		$this->slim->config('view', Core\Views\ViewService::getEngine());
+		$this->slim->config('view', Services\View\ViewService::getEngine());
 		$this->slim->view->parserOptions = array(
 			'debug' => $this->slim->config('debug'),
 			'cache' => $this->slim->config('cache_dir') .'/view'
@@ -91,7 +112,9 @@ class Bootstrap {
 
 		\DB::setInstance($manager);
 
-		$this->slim->config('debug') ? $manager->getConnection()->enableQueryLog() : null;
+		if ( $this->slim->config('debug') ) {
+			$manager->getConnection()->enableQueryLog();
+		}
 	}
 
 	private function setCache() {
@@ -105,17 +128,17 @@ class Bootstrap {
 
 			switch ($active) {
 				case 'file':
-					\Cache::setInstance(new Core\Cache\FileCache($drivers['file']));
+					\Cache::setInstance(new Services\Cache\FileCache($drivers['file']));
 					break;
 
 				case 'redis':
-					$redis = new Core\Connectors\RedisConnector($drivers['redis']);
+					$redis = new Connectors\RedisConnector($drivers['redis']);
 
 					if ( !$client = $redis->connect() ) {
 						throw new \Exception('Default Cache');
 					}
 
-					\Cache::setInstance(new Core\Cache\RedisCache($client));
+					\Cache::setInstance(new Services\Cache\RedisCache($client));
 					break;
 
 				default:
@@ -125,7 +148,7 @@ class Bootstrap {
 
 		} catch(\Exception $e) {
 
-			\Cache::setInstance(new Core\Cache\ArrayCache);
+			\Cache::setInstance(new Services\Cache\ArrayCache);
 
 		}
 	}
@@ -134,6 +157,8 @@ class Bootstrap {
 
 		$active = $this->slim->config('session')['active'];
 		$drivers = $this->slim->config('session')['drivers'];
+
+		session_cache_limiter(false);
 
 		try {
 
@@ -160,8 +185,6 @@ class Bootstrap {
 					$handlers['gc'] = function($maxLifetime) { };
 
 					session_set_save_handler($handlers['open'], $handlers['close'], $handlers['read'], $handlers['write'], $handlers['destroy'], $handlers['gc']);
-					
-					session_cache_limiter(false);
 					session_start();
 					break;
 
@@ -173,7 +196,6 @@ class Bootstrap {
 		} catch(\Exception $e) {
 
 			ini_set('session.gc_maxlifetime', $drivers['native']['maxlifetime']);
-			session_cache_limiter(false);
 			session_start();
 
 		}

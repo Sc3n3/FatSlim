@@ -13,7 +13,7 @@ return array(
 
 			'mysql' => array(
 				'driver'    => 'mysql',
-				'host'      => 'localhost',
+				'host'      => '127.0.0.1',
 				'database'  => 'database',
 				'username'  => 'root',
 				'password'  => '',
@@ -26,7 +26,7 @@ return array(
 	
 	'session' => array(
 
-		'active' => 'native',
+		'active' => 'cookie',
 		'drivers' => array(
 
 			'native' => array( // Adviced
@@ -76,8 +76,8 @@ return array(
 		)
 	),
 
-	//'template.engine' => \Sc3n3\FatSlim\Core\Views\Twig::class,
-	'template.engine' => \Sc3n3\FatSlim\Core\Views\Blade::class,
+	//'template.engine' => \Sc3n3\FatSlim\Views\Twig::class,
+	'template.engine' => \Sc3n3\FatSlim\Views\Blade::class,
 	'modules' => array(
 		\Sc3n3\FatSlim\Modules\Admin\AdminProvider::class
 	)

@@ -1,4 +1,4 @@
-<?php namespace Sc3n3\FatSlim\Core\Cache;
+<?php namespace Sc3n3\FatSlim\Services\Cache;
 
 class RedisCache implements CacheInterface {
 

@@ -1,4 +1,4 @@
-<?php namespace Sc3n3\FatSlim\Core\Connectors;
+<?php namespace Sc3n3\FatSlim\Connectors;
 
 use Predis\Client;
 use Predis\Connection\ConnectionException;
