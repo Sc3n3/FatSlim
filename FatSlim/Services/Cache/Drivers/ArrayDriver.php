@@ -1,6 +1,6 @@
-<?php namespace Sc3n3\FatSlim\Services\Cache;
+<?php namespace Sc3n3\FatSlim\Services\Cache\Drivers;
 
-class ArrayCache implements CacheInterface {
+class ArrayDriver implements CacheDriverInterface {
 
 	private $container = array();
 

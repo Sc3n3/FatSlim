@@ -1,6 +1,6 @@
-<?php namespace Sc3n3\FatSlim\Services\Cache;
+<?php namespace Sc3n3\FatSlim\Services\Cache\Drivers;
 
-interface CacheInterface {
+interface CacheDriverInterface {
 
 	public function get($key);
 

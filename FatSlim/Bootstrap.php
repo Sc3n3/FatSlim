@@ -77,6 +77,7 @@ class Bootstrap {
 	private function setModules() {
 
 		$modules = $this->slim->config('modules');
+
 		(new Services\Module\ModuleService)
 			->setList($modules)
 			->runModules();
@@ -122,13 +123,14 @@ class Bootstrap {
 		$active = $this->slim->config('cache')['active'];
 		$drivers = $this->slim->config('cache')['drivers'];
 
-		\Cache::setPrefix($this->slim->config('cache')['prefix']);
+		$cache = new Services\Cache\CacheService;
+		$cache->setPrefix($this->slim->config('cache')['prefix']);
 
 		try {
 
 			switch ($active) {
 				case 'file':
-					\Cache::setInstance(new Services\Cache\FileCache($drivers['file']));
+					$cache->setDriver(new Services\Cache\Drivers\FileDriver($drivers['file']));
 					break;
 
 				case 'redis':
@@ -138,7 +140,7 @@ class Bootstrap {
 						throw new \Exception('Default Cache');
 					}
 
-					\Cache::setInstance(new Services\Cache\RedisCache($client));
+					$cache->setDriver(new Services\Cache\Drivers\RedisDriver($client));
 					break;
 
 				default:
@@ -147,10 +149,10 @@ class Bootstrap {
 			}
 
 		} catch(\Exception $e) {
-
-			\Cache::setInstance(new Services\Cache\ArrayCache);
-
+			$cache->setDriver(new Services\Cache\Drivers\ArrayDriver);
 		}
+
+		\Cache::setInstance($cache);
 	}
 
 	private function sessionStart() {
@@ -194,10 +196,8 @@ class Bootstrap {
 			}
 
 		} catch(\Exception $e) {
-
 			ini_set('session.gc_maxlifetime', $drivers['native']['maxlifetime']);
 			session_start();
-
 		}
 	}
 

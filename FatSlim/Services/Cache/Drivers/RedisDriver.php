@@ -1,6 +1,6 @@
-<?php namespace Sc3n3\FatSlim\Services\Cache;
+<?php namespace Sc3n3\FatSlim\Services\Cache\Driver;
 
-class RedisCache implements CacheInterface {
+class RedisDriver implements CacheDriverInterface {
 
 	private $connection = null;
 

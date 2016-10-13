@@ -1,6 +1,6 @@
-<?php namespace Sc3n3\FatSlim\Services\Cache;
+<?php namespace Sc3n3\FatSlim\Services\Cache\Drivers;
 
-class FileCache implements CacheInterface {
+class FileDriver implements CacheDriverInterface {
 
 	private $config = array();
 
@@ -74,7 +74,7 @@ class FileCache implements CacheInterface {
 		$key = md5($key);
 		$dir = $this->getDir($key, $create);
 
-		return $dir ? $dir .'/'. $key : false;
+		return $dir ? $dir .'/'. $key .'.json' : false;
 	}
 
 	private function removeFile($key) {
