@@ -6,9 +6,9 @@ class ModuleService {
 
 	private $moduleList = array();
 
-	public function setList(array $list) {
+	public function setList($list) {
 
-		$this->moduleList = $list;
+		$this->moduleList = (array) $list;
 
 		return $this;
 	}
