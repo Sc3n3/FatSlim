@@ -1,5 +1,6 @@
 cache/view/*
 cache/storage/*
 vendor/*
+public/assets/*
 composer.lock
 !*.gitkeep
