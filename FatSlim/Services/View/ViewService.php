@@ -4,15 +4,17 @@ class ViewService {
 
 	private static $instance = null;
 
+	public static function setEngine($class) {
+
+		if( !$class instanceof \Slim\View ) {
+			throw new \RuntimeException('Template Engine is not valid!');
+		}
+
+		return self::$instance = $class;
+	}
+
 	public static function getEngine() {
 
-		if( self::$instance == null ) {
-
-			$class = app()->config('template.engine');
-			
-			self::$instance = new $class;
-		}
-		
 		return self::$instance;
 	}
 

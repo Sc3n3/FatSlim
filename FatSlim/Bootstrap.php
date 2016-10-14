@@ -89,7 +89,12 @@ class Bootstrap {
 		$this->slim->config('templates.path', $this->path .'/app/Views');
 		$this->slim->config('cache_dir', realpath($this->path .'/cache'));
 
-		$this->slim->config('view', Services\View\ViewService::getEngine());
+		$viewClass = $this->slim->config('template.engine');
+		if( !$viewClass || !class_exists($viewClass) ) {
+			throw new \RuntimeException('Template Engine is not found!');
+		}
+
+		$this->slim->config('view', Services\View\ViewService::setEngine(new $viewClass));
 		$this->slim->view->parserOptions = array(
 			'debug' => $this->slim->config('debug'),
 			'cache' => $this->slim->config('cache_dir') .'/view'

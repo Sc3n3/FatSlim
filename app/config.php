@@ -78,6 +78,7 @@ return array(
 
 	//'template.engine' => \Sc3n3\FatSlim\Views\Twig::class,
 	'template.engine' => \Sc3n3\FatSlim\Views\Blade::class,
+	//'template.engine' => \Sc3n3\FatSlim\Views\Slim::class,
 	'modules' => array(
 		\Sc3n3\FatSlim\Modules\Admin\AdminProvider::class
 	)
