@@ -4,18 +4,16 @@ use Sc3n3\FatSlim\Services\View\ViewService;
 
 class ModuleService {
 
-	private $moduleList = array();
+	private $instance = null; 
 
-	public function setList($list) {
+	public function __construct($instance) {
 
-		$this->moduleList = (array) $list;
+		$this->instance = $instance;
+		$this->instance->moduleRoutes = array();
 
-		return $this;
-	}
+		$modules = (array) $instance->config('modules');
 
-	public function runModules() {
-
-		foreach( $this->moduleList as $moduleClass ) {
+		foreach( $modules as $moduleClass ) {
 
 			$moduleProvider = new $moduleClass;
 			
@@ -35,8 +33,6 @@ class ModuleService {
 
 			$this->boot($moduleProvider);
 		}
-
-		return $this->applyRoutes();
 	}
 
 	private function getClassDir($class) {
@@ -52,19 +48,7 @@ class ModuleService {
 	private function boot($object) {
 
 		ViewService::addNamespace($object->getViewPrefix(), $object->getViewPath());
-		require $object->getRoutes();
-
-		return $this;
+		$this->instance->moduleRoutes += array($object->getViewPrefix() => $object->getRoutes());
 	}
 
-	private function applyRoutes() {
-
-		foreach(\Route::getRoutes() as $closure) {
-
-			call_user_func($closure, app());
-
-		}
-
-		return $this;
-	}
 }

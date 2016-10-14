@@ -1,13 +1,8 @@
 <?php
 
-Route::set(function($app) {
+Route::group('/admin', function() {
 
-	$app->group('/admin', function() use($app) {
-
-		$app->get('/', 'Sc3n3\FatSlim\Modules\Admin\Controllers\IndexController:getIndex')->name('admin::index');
-
-	});
+	Route::get('/', 'Sc3n3\FatSlim\Modules\Admin\Controllers\IndexController:getIndex')->name('admin::index');
 
 });
-
 

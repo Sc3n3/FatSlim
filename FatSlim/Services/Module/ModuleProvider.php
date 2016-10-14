@@ -1,5 +1,7 @@
 <?php namespace Sc3n3\FatSlim\Services\Module;
 
+use Sc3n3\FatSlim\Bootstrap;
+
 class ModuleProvider {
 
 	private $dir = null;
@@ -9,7 +11,7 @@ class ModuleProvider {
 
 	public function __construct() {
 
-		$this->app = app();	
+		$this->app = Bootstrap::getInstance();	
 	}
 
 	public function setDir($dir) {

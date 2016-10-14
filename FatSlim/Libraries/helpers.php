@@ -2,12 +2,12 @@
 
 function app($appName = 'default') {
 
-	return \Sc3n3\FatSlim\Bootstrap::getApp($appName);
+	return \Sc3n3\FatSlim\Bootstrap::getInstance($appName);
 }
 
-function path($path) {
+function path($path = '') {
 
-	return realpath(\Sc3n3\FatSlim\Bootstrap::getPath() .'/'. $path);
+	return \Sc3n3\FatSlim\Bootstrap::path($path);
 }
 
 function request() {

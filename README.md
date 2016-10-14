@@ -1,5 +1,5 @@
 # FatSlim
-Slim Framework 2 with Eloquent ORM &amp; Twig and Blade Template Engine &amp; Modular system support
+Slim Framework 2 with Eloquent ORM &amp; Twig and Blade Template Engine &amp; Modular System
 
 # Install
 First, you should clone the repository.
@@ -31,4 +31,4 @@ And set chmod for "cache" directory writeable. Thats all!
 [Laravel Helpers](https://laravel.com/docs/5.3/helpers)
 
 #TODO
-Facade Support
+Vendor Publish Support

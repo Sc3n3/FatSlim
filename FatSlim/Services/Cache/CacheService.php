@@ -7,6 +7,36 @@ class CacheService {
     private $prefix = '';
     private $instance = null;
 
+    public function __construct($instance) {
+
+        $active = $instance->config('cache')['active'];
+        $drivers = $instance->config('cache')['drivers'];
+
+        $this->setPrefix($instance->config('cache')['prefix']);
+
+        try {
+
+            switch ($active) {
+                case 'file':
+                    $this->setDriver(new Drivers\FileDriver($drivers['file']));
+                    break;
+
+                case 'redis':
+                    $this->setDriver(new Drivers\RedisDriver($drivers['redis']));
+                    break;
+
+                default:
+                    throw new \Exception('Default Cache');
+                    break;
+            }
+
+        } catch(\Exception $e) {
+            $this->setDriver(new Drivers\ArrayDriver);
+        }
+
+        $instance->cache = $this;
+    }
+
     public function get($key) {
 
         return $this->unserialize($this->instance->get($this->key($key)));
