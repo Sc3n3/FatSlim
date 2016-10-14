@@ -46,7 +46,6 @@ class Bootstrap extends Slim {
 
 	private function runServices() {
 
-		
 		$services = (array) $this->config('services');
 		
 		foreach($services as $service) {
@@ -60,9 +59,6 @@ class Bootstrap extends Slim {
 	}
 
 	private function setConfig($config) {
-
-		class_alias('Sc3n3\\FatSlim\\BaseController', 'BaseController');
-		class_alias('Sc3n3\\FatSlim\\BaseController', 'App\\Controllers\\BaseController');
 
 		if ( is_file($this->path('app/config.php')) ) {
 			$config = array_merge(require($this->path('app/config.php')), $config);
@@ -85,6 +81,9 @@ class Bootstrap extends Slim {
 	}
 
 	private function setLibraries() {
+
+		class_alias('Sc3n3\\FatSlim\\BaseController', 'BaseController');
+		class_alias('Sc3n3\\FatSlim\\BaseController', 'App\\Controllers\\BaseController');
 
 		$files = glob(__DIR__ ."/Libraries/*.php");
 		foreach($files ? $files : array() as $file) {
