@@ -1,7 +1,6 @@
 <?php namespace Sc3n3\FatSlim;
 
 use Slim\Slim;
-//use Sc3n3\FatSlim\Services\App\AppService;
 
 class Bootstrap extends Slim {
 
