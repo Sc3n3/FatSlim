@@ -95,14 +95,14 @@ return array(
 		'App' 		=> Sc3n3\FatSlim\Services\Facade\Facades\App::class,
 		'Cache' 	=> Sc3n3\FatSlim\Services\Facade\Facades\Cache::class,
 		'Config' 	=> Sc3n3\FatSlim\Services\Facade\Facades\Config::class,
-		'Container' => Sc3n3\FatSlim\Services\Facade\Facades\Container::class,
+		'Container'	=> Sc3n3\FatSlim\Services\Facade\Facades\Container::class,
 		'DB' 		=> Sc3n3\FatSlim\Services\Facade\Facades\DB::class,
 		'Input' 	=> Sc3n3\FatSlim\Services\Facade\Facades\Input::class,
 		'Request' 	=> Sc3n3\FatSlim\Services\Facade\Facades\Request::class,
 		'Response' 	=> Sc3n3\FatSlim\Services\Facade\Facades\Response::class,
 		'Route' 	=> Sc3n3\FatSlim\Services\Facade\Facades\Route::class,
 		'Schema' 	=> Sc3n3\FatSlim\Services\Facade\Facades\Schema::class,
-		'Validator' => Sc3n3\FatSlim\Services\Facade\Facades\Validator::class,
+		'Validator'	=> Sc3n3\FatSlim\Services\Facade\Facades\Validator::class,
 		'View' 		=> Sc3n3\FatSlim\Services\Facade\Facades\View::class
 	),
 	'modules' => array(

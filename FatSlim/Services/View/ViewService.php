@@ -15,7 +15,7 @@ class ViewService {
 
 		$engine = $this->setEngine(new $viewClass);
 
-		$instance->config('templates.path', \Sc3n3\FatSlim\Bootstrap::path('/app/Views'));
+		$instance->config('templates.path', $instance->path('/app/Views'));
 
 		$instance->config('view', $engine);
 		$instance->view->parserOptions = array(

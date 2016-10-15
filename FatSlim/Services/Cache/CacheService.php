@@ -103,17 +103,17 @@ class CacheService {
         return $this->set($key, $val, $expire);
     }
 
-    public function setDriver(CacheDriverInterface $instance) {
+    // *********************************
+
+    private function setDriver(CacheDriverInterface $instance) {
     	
     	return $this->instance = $instance;
     }
 
-    public function setPrefix($prefix) {
+    private function setPrefix($prefix) {
 
         return $this->prefix = $prefix;
     }
-
-    // *********************************
 
     private function key($key) {
 
